@@ -500,13 +500,10 @@ router.get('/sdt', (req, res) => {
       for (const func of shuffledFunctions) {
         // Không await ở đây để gửi song song, nhưng có một khoảng nghỉ nhỏ
         func(sdt);
-        await sleep(200); // Đợi 200ms giữa mỗi request để tránh quá tải
+        await sleep(50); // Đợi 50ms giữa mỗi request để tránh quá tải và cố gắng hoàn thành nhiều hơn
       }
-      console.log(`Hoàn thành gửi yêu cầu cho lần lặp ${i + 1}. Đợi 10 giây trước khi lặp lại...`);
-      // Đợi 10 giây giữa mỗi chu kỳ lớn
-      if (loopCount > 1 && i < loopCount - 1) {
-        await sleep(10000);
-      }
+      console.log(`Hoàn thành gửi yêu cầu cho lần lặp ${i + 1}.`);
+      // Không có sleep giữa các vòng lặp lớn để tối đa hóa số lượng cuộc gọi trong 10s
     }
     console.log(`Hoàn thành tất cả các yêu cầu cho SĐT: ${sdt}.`);
   })();
