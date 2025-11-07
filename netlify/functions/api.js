@@ -460,13 +460,13 @@ router.get(['/', '/home'], (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.status(200).send(`
     <h1>Chào mừng đến với SMS API</h1>
-    <h2>Cách sử dụng:</h2>
-    <p>Gọi đến endpoint <code>/api/sdt</code> với các tham số sau:</p>
+    <h2>Cách sử dụng (URL đã được rút gọn):</h2>
+    <p>Gọi đến endpoint <code>/sdt</code> với các tham số sau:</p>
     <ul>
       <li><b>sdt</b>: Số điện thoại cần gửi (bắt buộc, định dạng 10 số).</li>
       <li><b>lan</b>: Số lần lặp lại chu trình gửi (tùy chọn, từ 1 đến 100, mặc định là 1).</li>
     </ul>
-    <p><b>Ví dụ:</b> <code>/api/sdt?sdt=0123456789&lan=5</code></p>
+    <p><b>Ví dụ:</b> <code>/sdt?sdt=0123456789&lan=5</code></p>
     <p><b>Lưu ý:</b> API sẽ trả về thông báo ngay lập tức và chạy ngầm quá trình gửi. Bạn có thể theo dõi log trên Netlify để xem tiến trình.</p>
     <p><b>Cảnh báo:</b> Việc lạm dụng các API này có thể gây ra phiền toái cho người nhận và có thể vi phạm pháp luật. Hãy sử dụng một cách có trách nhiệm.</p>
   `);
@@ -512,6 +512,7 @@ router.get('/sdt', (req, res) => {
   })();
 });
 
-app.use('/api/', router);
+// Sử dụng router ở đường dẫn gốc
+app.use('/', router);
 
 module.exports.handler = serverless(app);
